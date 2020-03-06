@@ -1,10 +1,9 @@
 # python_course
-hello world
+Hello!
 
-add new information
+It's my repository from python course by StFalcon
 
-Hello world from GitHub
+Teacher Valerii Haluzynskyi,
+Software Engineer
 
-Hallo world 3
-
-Hallo world 4
+Homework_1 - This is a homework assignment that examines Python's basic expressions.
