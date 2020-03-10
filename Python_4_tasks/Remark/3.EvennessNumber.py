@@ -8,7 +8,7 @@
 # якщо ні то пропонує ввести дані ще раз
 # Повертає значення типу int
 
-def IsInt(TextInput):
+def isInt(TextInput):
     a = 1
     while a == 1:
         try:

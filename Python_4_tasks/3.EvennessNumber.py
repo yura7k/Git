@@ -1,35 +1,51 @@
-# Знаходження парних та непарних чисел у заданому проміжку
-# n - початок проміжку
-# m - кінець проміжку
+""" Find the even and odd numbers in the given interval
 
-# Функція. Перевірка чи введені дані Input є числом
-# якщо ні то пропонує ввести дані ще раз
-# Повертає значення типу int
+    Args:
+        n (int) - begining interval
+        m (int) - end interval
 
-def IsInt(TextInput):
+    Returns:
+        Print two list even and odd numbers
+    """
+def evenOddNumber(n, m):
+    listParni = []
+    listNeparni = []
+    if n >= m:
+        print("Введено некоректні дані!!!")
+        return
+
+    for i in range(n, m + 1):
+        if (i % 2) == 0:
+            listParni.append(i)
+        else:
+            listNeparni.append(i)
+
+    print("Непарні числа: ", listNeparni)
+    print("Парні числа: ", listParni)  
+    
+    return
+
+    
+"""Check whether the input data is a int
+
+    Returns:
+        int number or error"""
+
+def isInt(textInput):
     a = 1
     while a == 1:
         try:
-            TextOut = int(input(TextInput))
+            textOut = int(input(textInput))
             break
         except ValueError:
             print("УВАГА!!! Ведено не числове значення!")
-    return TextOut
+    return textOut
 
-n = IsInt("Введіть початок проміжку: ")
-m = IsInt("Введіть кінець проміжку: ")
+intBegin = isInt("Введіть початок проміжку: ")
+intEnd = isInt("Введіть кінець проміжку: ")
 
-listPar = []
-listNep = []
+evenOddNumber(intBegin, intEnd)  
 
-if n >= m:
-if n < m:
-    for i in range(n, m + 1):
-        if (i % 2) == 0:
-            listPar.append(i)
-        else:
-            listNep.append(i)
-    print("Непарні числа: ", listNep)
-    print("Парні числа: ", listPar)
-else:
-    print("Введено некоректні дані!!!")
+""" Переробив завдання через функцію
+    Змінив опис
+    забрав лишне вкладення"""
