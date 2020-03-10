@@ -1,46 +1,58 @@
-# Функція обчислення суми депозиту, де параметри:
-# SumDeposit - сума депозиту
-# Dividends - відсоткова ставка
-# Duration - тривалість вкладу
-# Type - тип нарахування відсотків
-#   1 - простий
-#   2 - складний
-# Повертає суму відсотків по депозиту
+""" Check whether the input data is a number
 
-def DepositCalc(SumDeposit, Dividends, Duration, Type):
-    if Type == 1:
-        SumDividends = SumDeposit * Dividends / 100 * Duration
-        return float("{:.2f}".format(SumDividends))
-    elif Type == 2:
-        SumTemp = SumDeposit
-        for i in range(Duration):
-            SumDividends = SumDeposit * Dividends / 100
-            SumDeposit =  SumDeposit + SumDividends
-        SumDividends = SumDeposit - SumTemp
-        return float("{:.2f}".format(SumDividends))
+    Returns:
+        int or float digit
+    """
+def isInt(textInput):
+    a = 1
+    while a == 1:
+        try:
+            numberOut = float(input(textInput))
+            if numberOut.is_integer(): numberOut = int(numberOut)
+            break
+        except ValueError:
+            print("УВАГА!!! Ведено не числове значення!")
+    return numberOut
+
+""" Дякую за допомогу з коментарем, сам поки так не напишу :)
+    """
+"""Should call summ of deposit
+
+    Args:
+        SumDeposit (int): Summ of the deposit.
+        Dividends (int): Persent rate.
+        Duration (int): Duration of the deposit in years.
+        Type (int): 1 - simple / 2 - сomplex
+
+    Returns:
+        float: calculated rate
+    """
+
+def getDepositCalc(sumDeposit, dividends, duration, type):
+    if type == 1:
+        sumDividends = sumDeposit * dividends / 100 * duration
+        return float("{:.2f}".format(sumDividends))
+    elif type == 2:
+        sumTemp = sumDeposit
+        for i in range(duration):
+            sumDividends = sumDeposit * dividends / 100
+            sumDeposit =  sumDeposit + sumDividends
+        sumDividends = sumDeposit - sumTemp
+        return float("{:.2f}".format(sumDividends))
     else:
         print("Невірно вказано тип нарахування відсотків!")
         pass
 
-# Перевірка чи введені дані Input є числом
-# якщо ні то пропонує ввести дані ще раз
-# Повертає значення типу int
-def IsInt(TextInput):
-    a = 1
-    while a == 1:
-        try:
-            TextOut = int(input(TextInput))
-            break
-        except ValueError:
-            print("УВАГА!!! Ведено не числове значення!")
-    return TextOut
+floatSumDeposit = isNumber("Вкажіть суму депозиту: ")
+floatDividents = isNumber("Вкажіть відсоткову ставку: ")
+intDuration = isNumber("Вкажіть термін депозиту (роки): ")
 
-SumD = IsInt("Вкажіть суму депозиту: ")
-DivD = IsInt("Вкажіть відсоткову ставку: ")
-DurD = IsInt("Вкажіть термін депозиту (роки): ")
 print("Вкажіть тип нарахування відсотків: ")
-TypD = IsInt("1 - Простий, 2 - Складний ")
+bolType = isNumber("1 - Простий, 2 - Складний ")
 
-dep = DepositCalc(SumD, DivD, DurD, TypD)
+floatDeposit = getDepositCalc(floatSumDeposit, floatDividents, intDuration, bolType)
 
-if dep != None : print("Через " + str(DurD) + " років Ваш депозит зросте на " + str(dep) + " грн.")
+if floatDeposit != None : print("Через {0} років Ваш депозит зросте на {1} грн.".format(str(intDuration), str(floatDeposit)))
+
+""" Все ніби працює, але якщо ввести термін депозиту float, то все зламається
+    """
