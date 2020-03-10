@@ -1,28 +1,12 @@
-""" Check whether the input data is a number
-
-    Returns:
-        int or float digit
-    """
-def isInt(textInput):
-    a = 1
-    while a == 1:
-        try:
-            numberOut = float(input(textInput))
-            if numberOut.is_integer(): numberOut = int(numberOut)
-            break
-        except ValueError:
-            print("УВАГА!!! Ведено не числове значення!")
-    return numberOut
-
 """ Дякую за допомогу з коментарем, сам поки так не напишу :)
     """
 """Should call summ of deposit
 
     Args:
-        SumDeposit (int): Summ of the deposit.
-        Dividends (int): Persent rate.
-        Duration (int): Duration of the deposit in years.
-        Type (int): 1 - simple / 2 - сomplex
+        sumDeposit (float): Summ of the deposit.
+        dividends (float): Persent rate.
+        duration (int): Duration of the deposit in years.
+        type (int): 1 - simple / 2 - сomplex
 
     Returns:
         float: calculated rate
@@ -42,6 +26,22 @@ def getDepositCalc(sumDeposit, dividends, duration, type):
     else:
         print("Невірно вказано тип нарахування відсотків!")
         pass
+
+""" Check whether the input data is a number
+
+    Returns:
+        int or float digit
+    """
+def isNumber(textInput):
+    a = 1
+    while a == 1:
+        try:
+            numberOut = float(input(textInput))
+            if numberOut.is_integer(): numberOut = int(numberOut)
+            break
+        except ValueError:
+            print("УВАГА!!! Ведено не числове значення!")
+    return numberOut
 
 floatSumDeposit = isNumber("Вкажіть суму депозиту: ")
 floatDividents = isNumber("Вкажіть відсоткову ставку: ")
