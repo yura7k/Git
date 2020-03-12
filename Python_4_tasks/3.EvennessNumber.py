@@ -8,6 +8,8 @@
         Print two list even and odd numbers
     """
 def evenOddNumber(n, m):
+    # щодо найменування ліпше listParni -> even, listParni -> odd
+    # можна не вказувати тип даних в назві змінних
     listParni = []
     listNeparni = []
     if n >= m:
@@ -22,7 +24,7 @@ def evenOddNumber(n, m):
 
     print("Непарні числа: ", listNeparni)
     print("Парні числа: ", listParni)  
-    
+    # return не обов"язковий, адже ми нічого не повертаємо
     return
 
     
@@ -32,6 +34,8 @@ def evenOddNumber(n, m):
         int number or error"""
 
 def isInt(textInput):
+    # a = 1 та while a == 1 можна поміняти на
+    # while True:
     a = 1
     while a == 1:
         try:

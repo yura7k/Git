@@ -33,21 +33,31 @@ def getDepositCalc(sumDeposit, dividends, duration, type):
         int or float digit
     """
 def isNumber(textInput):
+    # a = 1 та while a == 1 можна поміняти на
+    # while True:
     a = 1
     while a == 1:
         try:
             numberOut = float(input(textInput))
-            if numberOut.is_integer(): numberOut = int(numberOut)
+            # ліпше писати код, котрий виконується в if з нового рядка
+            # навіть якщо це одна команда
+            if numberOut.is_integer(): 
+                numberOut = int(numberOut)
             break
         except ValueError:
             print("УВАГА!!! Ведено не числове значення!")
     return numberOut
 
+# не треба писати тип змінної
+# deposit
+# dividends
+# duration
 floatSumDeposit = isNumber("Вкажіть суму депозиту: ")
 floatDividents = isNumber("Вкажіть відсоткову ставку: ")
 intDuration = isNumber("Вкажіть термін депозиту (роки): ")
 
 print("Вкажіть тип нарахування відсотків: ")
+# bol?
 bolType = isNumber("1 - Простий, 2 - Складний ")
 
 floatDeposit = getDepositCalc(floatSumDeposit, floatDividents, intDuration, bolType)
