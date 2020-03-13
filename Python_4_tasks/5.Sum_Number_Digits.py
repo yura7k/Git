@@ -11,7 +11,7 @@
 
 number = input("Inpun any number: ")
 
-digits = list(str(number))
+digits = list(number)
 
 sum_digits = 0
 

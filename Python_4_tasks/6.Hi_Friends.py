@@ -1,4 +1,4 @@
-""" Program output welcome message for friends 
+""" Program print welcome message for friends 
 
     Input:
         name (str) : name of friend
@@ -7,11 +7,12 @@
         Welcome message
     """
 
-dictFriends = ['maks', 'yurii', 'valerii', 'olya', 'katya']
+friendsList = {'Maks': 'Mukolayovich', 'Yurii': 'Vasilyovich', 'Valerii': 'Ivanovich', 
+                'Olya': 'Olegivna', 'Katya': 'Petrivna'}
 
-name = input("Enter you name: ")
+name = input("Enter you name: ").capitalize()
 
-if name.lower() in dictFriends:
-    print("Hallo, {}!".format(name))
+if name in friendsList.keys():
+    print("Hallo, {0} {1}!!!".format(name, friendsList[str(name)]))
 else:
-    print("Hallo Guest!")
+    print("Hallo {} !!!".format(name))
