@@ -7,3 +7,4 @@ Teacher Valerii Haluzynskyi,
 Software Engineer
 
 Python_4_tasks - This is a homework assignment that examines Python's basic expressions.
+Python_5_tasks - This is a homework 5 lessons.
