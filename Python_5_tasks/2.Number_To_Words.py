@@ -18,54 +18,49 @@ dictDigits = {0: 'Нуль', 1: 'Один', 2: 'Два', 3: 'Три', 4: 'Чот
                 2000:'Дві тисячі', 3000:'Три тисячі',  4000:'Чотири тисячі',  5000:'П\'ять тисяч',  
                 6000:'Шість тисяч', 7000:'Сім тисяч', 8000:'Вісім тисяч', 9000:'Дев\'ять тисяч'}
 
+""" digitNumber - Function searches for the digit number and returns the value to the list
+
+    Args:
+        inputNumber (int): Input number
+    
+    Returns:
+        list : numberRest wthere:
+            list[0]- number of thousant
+            lisl[1]- number of hungred
+            list[2]- number of tens
+    # теоретично це можна розширити розширивци словник
+    # на англійській було б ленше, там немає закінчень))
+    """
+def digitNumber(inputNumber):
+    numDivision = 1000
+    numberRest = []
+
+    while  numDivision >= 10:
+        resultDiv = inputNumber // numDivision
+        numberRest.append(resultDiv)
+        inputNumber = inputNumber - resultDiv * numDivision
+        numDivision = int(numDivision / 10)
+    
+    return numberRest
+
 number = int(input("Введіть ціле число < 9999: "))
 
-if number in dictDigits.keys():
-    print(dictDigits[number])
-elif number // 10 < 10:
-    numberRest = number % 10
-    number = number - numberRest
-    print(dictDigits[number], dictDigits[numberRest].lower())
-elif number // 100 < 10:
-    numberRest = number % 10
-    number = number - numberRest
-    numberRest10 = number % 100
-    number = number - numberRest10
-    print(dictDigits[number], dictDigits[numberRest10].lower(), dictDigits[numberRest].lower())
-elif number // 1000 < 10:
-    numberRest = number % 10
-    number = number - numberRest
-    numberRest10 = number % 100
-    number = number - numberRest10
-    numberRest100 = number % 1000
-    number = number - numberRest100
-    print(dictDigits[number], dictDigits[numberRest100].lower(), dictDigits[numberRest10].lower(),
-        dictDigits[numberRest].lower())
-else:
-    print("Sorry... You input a big number: ", number)
-
-""" Пробував ще так - не працює
-
+listDigit = digitNumber(number)
+lenList = len(listDigit)
 strNumber = ""
 
-if number // 1000 < 10:
-    countThousant = number // 1000 * 1000
-    numberRest = number - countThousant
-    strNumber = strNumber + dictDigits[countThousant] + " "
-
-    if numberRest // 100 < 10:
-        countHungred = numberRest // 100 * 100
-        numberRest = numberRest - countHungred
-        if countHungred > 0: strNumber = strNumber + dictDigits[countHungred] + " "
-
-        if numberRest // 10 < 10:
-            countTeens = numberRest // 10 * 10
-            numberRest = numberRest - countTeens
-            if countTeens > 20: 
-                strNumber = strNumber + dictDigits[countTeens] + " " 
-            elif numberRest in dictDigits.keys():
-                strNumber = strNumber + dictDigits[numberRest]
-else:
-    print("Sorry... You input a big number: ", number)
-
-print(strNumber)"""
+if number > 9999:
+    print("Sorry... You input a big number: ", number)      
+elif lenList > 0:
+    numDivision = 1000  # число на яке дылимо
+    numTMP = 0  # чимсове число сума вже написаних чисел
+    for i in range(lenList):
+        intItem = int(listDigit[i])
+        if intItem != 0 and intItem*numDivision >= 20:  # те шо неправильно писало
+            strNumber = strNumber + dictDigits[numDivision * intItem] + " "
+            numTMP = numTMP + numDivision * intItem
+        numDivision = numDivision / 10
+    number = number - numTMP
+    if number in dictDigits.keys():
+        strNumber = strNumber + dictDigits[number]
+    print(strNumber.capitalize())  
