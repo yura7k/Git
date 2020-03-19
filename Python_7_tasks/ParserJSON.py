@@ -2,35 +2,41 @@ import json
 
 #  path to JSON file
 fileDir = "D:/Python/Git/python_course/Python_7_tasks/"
+#  name JSON file
+fileName = "Car_Model_List.json"
 
-""" Opens the file, if successful - reads it and returns the string
+""" Opens the file, if successful - reads it and convert 
+    JSON object to Python object
     
     Input:
         fileName - name file
+
+    Output:
+        dataJSON(list) - Python list where elements is DICT
     """
-def openFile(fileName):
+def openFile(file= fileName):
     try:
-        fileExemple = open(fileDir + fileName)
-        return fileExemple.read()
+        fileData = open(fileDir + file)
+        dataJSON = json.loads(fileData.read())
+        return dataJSON
     except EOFError:
         print("Open open file")
     finally:
-        fileExemple.close()
-
+        fileData.close()
 
 """ Function prints the data as a table
     Input:
         listData (list) - list of data
     """
-def printTable(listData):
-    if len(listData) < 1:
+def printTable(dataToPrint):
+    if len(dataToPrint) < 1:
         print("No data to print!")
     else:
         lineTop = "+"
         lineTitle = "|"
         lineData = "|"
         
-        listItem = listData[0]
+        listItem = dataToPrint[0]
         if isinstance(listItem, dict):
             for item in listItem.keys():
                 lineTop = lineTop + ("".center(25, '-') + "+")
@@ -38,7 +44,7 @@ def printTable(listData):
             print(lineTop)
             print(lineTitle)
             print(lineTop)
-            for data in listData:
+            for data in dataToPrint:
                 for item in data:
                     if type(data[item]) == int:
                         data[item] = str(data[item])
@@ -46,10 +52,9 @@ def printTable(listData):
                 print(lineData)
                 lineData = "|"
         else:
-            #lineTop = "+"
             lineTop = lineTop + ("".center(30, '-') + "+")
             print(lineTop)
-            for item in listData:
+            for item in dataToPrint:
                 lineData = lineData + (item.center(30) + "|")
                 print(lineData)
                 lineData = "|"
@@ -68,8 +73,9 @@ def printTable(listData):
     Output:
         listBrand (list) - list All brands
     """
-def listBrands(file = 'Car_Model_List.json', sort = "none"):
-    listJSON = json.loads(openFile(file))
+def listBrands(sort = "none"):
+    
+    listJSON = openFile()
     listBrand = []
 
     for item in listJSON:
@@ -94,33 +100,30 @@ def listBrands(file = 'Car_Model_List.json', sort = "none"):
     Output:
         listOut (list) - list All models by input brands
     """
-def listModelByBrand(file = 'Car_Model_List.json', brand = "Tesla"):
-    listJSON = json.loads(openFile(file))
+def listModelByBrand(brand = "Tesla"):
+    listJSON = openFile()
     listOut = []
-    dictModel = {}
-
+    
     for item in listJSON:
+        dictModel = {}
         if item['Make'].lower() == brand.lower():
             dictModel['Make'] = item['Make']
             dictModel['Model'] = item['Model']
             dictModel['Year'] = str(item['Year'])
             listOut.append(dictModel)
-            dictModel = {}
     if len(listOut) < 1:
         listOut.append("ERROR: wrong brand - " + brand)
 
     return listOut
 
-fileJSON = 'Car_Model_List.json'
-
 # Level 2 - Task1
-printTable(listData= listBrands(sort='ask'))
+dataBrands = listBrands(sort='ask')
+printTable(dataToPrint= dataBrands)
 
 # Level 2 - Task2
 brand = input("Input name of brand auto: ")
-printTable(listData= listModelByBrand(file= fileJSON, brand= brand))
-
-
+dataModels = listModelByBrand(brand= brand)
+printTable(dataToPrint= dataModels)
 
 # Test Data
 # listBrands(sort = 'desk')
