@@ -228,27 +228,53 @@ def printByStep(data= parceJSON, step= 5, start = 0):
             printTable(dataToPrint= data[start:])
             break
 
-# Level 2 - Task 1
-#dataBrands = listBrands(sort='ask')
-#printTable(dataToPrint= dataBrands)
-
-# Level 2 - Task 2
-brand = input("Input name of brand auto: ")
-dataModels = listModelByBrand(brand= brand)
-printTable(dataToPrint= dataModels)
-
-# Level 2 - Task 3 
-model = input("Input model auto: ")
-dataModels = listModelByModel(data= dataModels, model= model)
-# printTable(dataToPrint= dataModels)
-
-# Level 3 - Task 2 by step 
-printByStep(data= dataModels) 
-
-# Level 2 - Task 4
-# Працює все послідовно, тобто відбирає  спочатку бренд
-# Потім модель
-# Потім по року
-inYear = input("Input Yaer of model auto (sep by ',' or '-'): ")
-dataModels = listModelByYear(data= dataModels, year= inYear)
-printTable(dataToPrint= dataModels)
+def menu(error= ''):
+    if error == '':
+        print("""               Select action: 
+        ------------------------------------------------------------
+        [1] Print list of ALL car brands
+        [2] Print list cars entered brand
+        [3] Print list cars entered models (incomplete is possible)
+        [4] Print list cars entered brand/model/year
+        ------------------------------------------------------------
+        [0] Exit""")
+    else:
+        print(error)
+        
+    selectMenu = input()
+    if selectMenu == '1':
+        # Level 2 - Task 1
+        dataBrands = listBrands(sort='ask')
+        printTable(dataToPrint= dataBrands)
+        menu()
+    elif selectMenu == '2':
+        # Level 2 - Task 2
+        brand = input("Input name of brand auto: ")
+        dataModels = listModelByBrand(brand= brand)
+        printTable(dataToPrint= dataModels)
+        menu()
+    elif selectMenu == '3':
+        # Level 2 - Task 3 
+        model = input("Input model auto: ")
+        dataModels = listModelByModel(data= parceJSON, model= model)
+        printTable(dataToPrint= dataModels)
+        menu()
+    elif selectMenu == '4':
+        # Level 2 - Task 4
+        # Працює все послідовно, тобто відбирає  спочатку бренд
+        # Потім модель
+        # Потім по року
+        brand = input("Input name of brand auto: ")
+        dataModels = listModelByBrand(brand= brand)
+        model = input("Input model auto: ")
+        dataModels = listModelByModel(data= dataModels, model= model)
+        inYear = input("Input Yaer of model auto (sep by ',' or '-'): ")
+        dataModels = listModelByYear(data= dataModels, year= inYear)
+        printByStep(data= dataModels) 
+        menu()
+    elif selectMenu == '0':
+        pass
+    else:
+        err = 'ERROR: Input correct number:'
+        menu(error= err)
+menu()
