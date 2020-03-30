@@ -228,7 +228,7 @@ def printByStep(data= parceJSON, step= 5, start = 0):
             printTable(dataToPrint= data[start:])
             break
 
-def menu(error= ''):
+def menu(error= '', settings = {}):
     if error == '':
         print("""               Select action: 
         ------------------------------------------------------------
@@ -272,6 +272,14 @@ def menu(error= ''):
         dataModels = listModelByYear(data= dataModels, year= inYear)
         printByStep(data= dataModels) 
         menu()
+    #elif selectMenu == '9':
+        '''sorting = input("""
+            Input how sort lists:
+        none - no sorting
+        ask - sort up
+        desk - sort desk  """)
+        countList = int(input("Input how many strings print to page?"))
+        setting['sort']'''
     elif selectMenu == '0':
         pass
     else:
