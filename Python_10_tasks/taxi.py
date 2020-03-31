@@ -6,6 +6,7 @@ class Taxi:
         #  шлях до файлу prices.json
         self.name = ""
         self.distance = 0
+        self.drove = 0
         self.listTaxi = []
         
         file = "D:/Python/Git/python_course/Python_10_tasks/prices.json"
@@ -28,7 +29,7 @@ class Taxi:
                 break
             except ValueError:
                 print("ERROR!!! Input incorect number!")
-
+    
     def getListTaxi(self, data, name):     
         self.listTaxi = []   
         
@@ -55,10 +56,28 @@ class Taxi:
         if name and distance:
             highEst = 0
             lowEst = 0
+            
             for item in self.listTaxi:
-                if name.lower() in item['display_name'].lower():
-                    highEst = int(item['high_estimate'])
-                    lowEst = int(item['low_estimate'])
-                    self.priceTrip = distance * random.randint(lowEst, highEst)
+                if type(item['high_estimate']) == int or type(item['high_estimate']) == float:
+                    highEst = item['high_estimate']
+                if type(item['low_estimate']) == int or type(item['low_estimate']) == float:
+                    lowEst = item['low_estimate']
+                self.priceTrip = distance * random.randint(lowEst, highEst)
+            
+            if highEst == 0 and lowEst == 0:
+                self.priceTrip = "You Trip is FREE!!!"
         else:
             print("No input name taxi or distance!!!")
+    
+    def driveTrip(self, distance):
+        if distance > 0:
+            while distance > 0:
+                trip = random.randint(1, distance)
+                distance -= trip
+                self.distance = distance
+                self.drove += trip
+                print("You drove - ", trip, ", left - ", distance)
+            
+            print("Trip is Finish! \n   You drove - ", self.drove)
+        else:
+            print("You already in state!")

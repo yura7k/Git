@@ -16,3 +16,7 @@ parserJSON.printTable(taxi.listTaxi, 25)
 
 taxi.getPriceTrip(taxi.name, taxi.distance)
 print("****  Total price - ", taxi.priceTrip, " ****")
+
+taxi.driveTrip(taxi.distance)
+# перевіряв чи відпрацьовує...
+taxi.driveTrip(taxi.distance)

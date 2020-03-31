@@ -22,11 +22,12 @@ def printTable(dataToPrint, count = 25):
             print(lineTop)
             for data in dataToPrint:
                 for item in data:
-                    if type(data[item]) == int:
-                        data[item] = str(data[item])
+                    itemPrint = data[item]
+                    if type(data[item]) == int or type(data[item]) == float:
+                        itemPrint = str(data[item])
                     elif data[item] == None:
-                        data[item] = " "
-                    lineData = lineData + data[item].center(count) + "|"
+                        itemPrint = " "
+                    lineData = lineData + itemPrint.center(count) + "|"
                 print(lineData)
                 lineData = "|"
         else:
@@ -36,5 +37,5 @@ def printTable(dataToPrint, count = 25):
                 lineData = lineData + (item.center(count) + "|")
                 print(lineData)
                 lineData = "|"
-                
+
         print(lineTop)
