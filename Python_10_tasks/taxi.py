@@ -70,6 +70,7 @@ class Taxi:
             print("No input name taxi or distance!!!")
     
     def driveTrip(self, distance):
+        input("\nPress <ENTER> to Start...")
         if distance > 0:
             while distance > 0:
                 trip = random.randint(1, distance)
@@ -78,6 +79,8 @@ class Taxi:
                 self.drove += trip
                 print("You drove - ", trip, ", left - ", distance)
             
-            print("Trip is Finish! \n   You drove - ", self.drove)
+            print("\nTrip is Finish!")
+            print("  You drove - {} km".format(self.drove))
+            print("  Total price - {:.2f} USD".format(self.priceTrip))
         else:
             print("You already in state!")
