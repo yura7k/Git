@@ -58,20 +58,22 @@ class Taxi:
             lowEst = 0
             
             for item in self.listTaxi:
-                if type(item['high_estimate']) == int or type(item['high_estimate']) == float:
-                    highEst = item['high_estimate']
-                if type(item['low_estimate']) == int or type(item['low_estimate']) == float:
-                    lowEst = item['low_estimate']
-                self.priceTrip = distance * random.randint(lowEst, highEst)
-            
-            if highEst == 0 and lowEst == 0:
+                if isinstance(item, dict):
+                    if type(item['high_estimate']) == int or type(item['high_estimate']) == float:
+                        highEst = item['high_estimate']
+                    if type(item['low_estimate']) == int or type(item['low_estimate']) == float:
+                        lowEst = item['low_estimate']
+                    self.priceTrip = distance * random.randint(lowEst, highEst)
+                else:
+                    self.priceTrip = 0
+            if highEst == 0 and lowEst == 0 and self.priceTrip != 0:
                 self.priceTrip = "You Trip is FREE!!!"
         else:
             print("No input name taxi or distance!!!")
     
     def driveTrip(self, distance):
         input("\nPress <ENTER> to Start...")
-        if distance > 0:
+        if distance > 0 and self.priceTrip != 0:
             while distance > 0:
                 trip = random.randint(1, distance)
                 distance -= trip
@@ -80,7 +82,10 @@ class Taxi:
                 print("You drove - ", trip, ", left - ", distance)
             
             print("\nTrip is Finish!")
-            print("  You drove - {} km".format(self.drove))
+            print("  Total drove - {} km".format(self.drove))
             print("  Total price - {:.2f} USD".format(self.priceTrip))
+        elif self.priceTrip == 0:
+            print("You enter wrong taxi", self.name)
         else:
             print("You already in state!")
+    
