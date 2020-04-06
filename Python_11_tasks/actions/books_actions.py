@@ -8,7 +8,8 @@ from actions.writers_actions import view_writers
 
 
 def book_list():
-    query = (f"SELECT b.id, b.name as nameBook, w.name FROM {BOOKS.TABLE_NAME} as b, {WRITERS.TABLE_NAME} as w WHERE b.writerId = w.id")
+    query = (f"SELECT b.id, b.name as nameBook, w.name FROM {BOOKS.TABLE_NAME} as b, \
+            {WRITERS.TABLE_NAME} as w WHERE b.writerId = w.id")
     books = get_data(query)
     pretty_print(books)
     print(Fore.GREEN, " Enter <key> comand ".center(30, "*"), Fore.RESET)
@@ -23,7 +24,8 @@ def book_info():
         if len(book_id.strip()) > 0:
             break
     
-    query = (f"SELECT b.name, b.description, w.name FROM {BOOKS.TABLE_NAME} as b, {WRITERS.TABLE_NAME} as w WHERE b.id = {book_id} and b.writerId = w.id")
+    query = (f"SELECT b.name, b.description, w.name FROM {BOOKS.TABLE_NAME} as b, \
+            {WRITERS.TABLE_NAME} as w WHERE b.id = {book_id} and b.writerId = w.id")
     book_description = get_data(query)
     
     pretty_print(book_description)
@@ -50,7 +52,8 @@ def add_book():
         if len(book_name.strip()) > 0 and len(book_description.strip()) > 0:
             break
     
-    query = (f"INSERT INTO {BOOKS.TABLE_NAME} (name, description, writerId) VALUES ('{book_name}', '{book_description}', {autor_id})")
+    query = (f"INSERT INTO {BOOKS.TABLE_NAME} (name, description, writerId) VALUES ('{book_name}', \
+            '{book_description}', {autor_id})")
     execute_command(query)
 
     print(" Saved ".center(30, "*"))
