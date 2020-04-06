@@ -85,7 +85,7 @@ class Taxi:
             print("  Total drove - {} km".format(self.drove))
             print("  Total price - {:.2f} USD".format(self.priceTrip))
         elif self.priceTrip == 0:
-            print("You enter wrong taxi", self.name)
+            print("You enter wrong taxi - ", self.name)
         else:
             print("You already in state!")
     
