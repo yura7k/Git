@@ -1,0 +1,5 @@
+colorama
+pymongo
+mongoengine
+switchlang
+PrettyTable
