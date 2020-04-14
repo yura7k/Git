@@ -1,6 +1,8 @@
 from colorama import Fore
+
 from models.guests import Guest
-from helper.input_helper import (get_string, get_price, get_int)
+
+from helper.input_helper import (get_string, get_price, get_age)
 from helper.output_helper import pretty_print
 
 class Guest_service():
@@ -12,12 +14,14 @@ class Guest_service():
 
         pretty_print(guests, columns)
 
+
     def guest_add(self):
         print(Fore.RED, " Add Guest ".center(30, "*"), Fore.RESET)
+        min_age = Guest.age.min_value
 
         guest = Guest()
         guest.name = get_string("Please enter guest name: ")
-        guest.age = get_int("Please enter guest age (you must have > 16): ")
+        guest.age = get_age("Please enter guest age (you must have > {}): ".format(min_age), min_age=min_age)
 
         guest.save()
         print(Fore.RED, " Apartment Saved".center(30, "*"), Fore.RESET)

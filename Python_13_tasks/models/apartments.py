@@ -7,13 +7,10 @@ class Apartment(mongoengine.Document):
     description = mongoengine.StringField()
     smoke_allowed = mongoengine.BooleanField(default=False)
 
-    booking = mongoengine.EmbeddedDocumentListField(Booking)
+    bookings = mongoengine.EmbeddedDocumentListField(Booking)
     #  як варіант
     #  booking = ListField(mongoengine.EmbeddedDocumentField(Booking))
-    #
-    #
-    #
-
+  
     meta = {
         'db_alias': 'hotel',
         'collection': 'apartments'

@@ -24,14 +24,17 @@ class Apartment_service():
         apartment.save()
         print(Fore.RED, " Apartment Saved".center(30, "*"), Fore.RESET)
     
-    def search_apartment(self):
+    def search_apartment(self, name=''):
         print(Fore.RED, " Apartment Search ".center(30, "*"), Fore.RESET)
 
-        name = get_string("Pleace, enter apartment name: ")
+        if name == '':
+            name = get_string("Pleace, enter apartment name: ")
 
         apartment = Apartment.objects() \
                         .filter(name = name)
 
-        columns = ('id', 'Name', 'Description', 'Price', 'Smoke_allowed')
+        columns = ('Name', 'Description', 'Price', 'Smoke_allowed')
 
         pretty_print(apartment, columns)
+
+        return apartment
