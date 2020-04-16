@@ -1,4 +1,4 @@
-from colorama import Fore
+from colorama import Fore, Back, Style
 import datetime
 
 from models.booking import Booking
@@ -82,21 +82,21 @@ class Booking_service():
             
         #  Повертаємо ID гостя
         guest = Guest_service()
-        guestID = guest.search_guest()
+        guest_id = guest.search_guest()
         #  це друкую для виключно перевірки
-        print(Fore.YELLOW, "You ID = ", guestID, Fore.RESET)
+        print(Fore.YELLOW, "You ID = ", guest_id, Fore.RESET)
 
         columns_apt = ("Name", "price")
         columns_booking = ("guest_id", "chek_in_date", "chek_out_date", "booked_date")
         message = "You haven't bookings yet!"
 
         #  Перевіряємо чи є бронювання
-        for apartment in Apartment.objects():
+        for apartment in Apartment.objects(bookings__guest_id=guest_id):
             guest_bookings = []
 
             #  Перевіряємо чи це бронювання нашого гостя
             for booking in apartment.bookings:
-                if booking.guest_id == guestID:
+                if booking.guest_id == guest_id:
                     guest_bookings.append(booking)
 
             #  якщо є бронювання друкуємо назву апартаментів та бронювання
