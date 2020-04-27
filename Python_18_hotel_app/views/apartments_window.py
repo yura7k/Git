@@ -122,5 +122,3 @@ class ApartmentsWindow(QMdiSubWindow):
         self.name_field.setText('')
         self.price_field.setText('')
         self.description_field.setText('')
-        
-        

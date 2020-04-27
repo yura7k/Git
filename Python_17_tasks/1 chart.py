@@ -10,7 +10,7 @@ layout = QVBoxLayout()
 
 # Initialize chart
 chart = QtCharts.QChart()
-lineSeries = QtCharts.QLineSeries()]
+lineSeries = QtCharts.QLineSeries()
 lineSeries2 = QtCharts.QLineSeries()
 
 # Make some random data points

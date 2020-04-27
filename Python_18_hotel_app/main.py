@@ -5,6 +5,7 @@ from PySide2.QtCore import Slot, Qt
 from views.add_reservation_window import AddReservationWindow
 from views.apartments_window import ApartmentsWindow
 from views.reservations_window import ReservationsWindow
+from views.guests_window import GuestsWindow
 from views.main_window import MainWindow
 import services.mongo_setup as db_setup
 
@@ -25,7 +26,7 @@ class MDIWindow(QMainWindow):
         reservations_view = reservations.addAction("View")
         reservations_view.triggered.connect(self.ShowReservations)
 
-        users = menu.addAction("Users")
+        users = menu.addAction("Guests")
         users.triggered.connect(self.ShowUsers)
 
         help = menu.addAction("Help")
@@ -63,10 +64,9 @@ class MDIWindow(QMainWindow):
     @Slot()
     def ShowUsers(self):
         print("Show users")
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Information)
-        msg.setText("Not implemented")
-        msg.exec_()
+        self.closeMainWindow()
+        guests_window = GuestsWindow(self.mdi)
+        guests_window.destroyed.connect(self.ShowMainWindow)
 
     @Slot()
     def ShowHelp(self):

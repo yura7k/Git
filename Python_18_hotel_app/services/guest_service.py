@@ -8,16 +8,23 @@ class Guest_service():
         guests = Guest.objects()
         return guests
         
-    def guest_add(self):
+    def guest_add(self, data):
         print(Fore.RED, " Add Guest ".center(30, "*"), Fore.RESET)
-        min_age = Guest.age.min_value
+        guest = Guest.objects(name = data['name']).first()
 
-        guest = Guest()
-        guest.name = get_string("Please enter guest name: ")
-        guest.age = get_age("Please enter guest age (you must have > {}): ".format(min_age), min_age=min_age)
+        if not guest:
+            guest = Guest()
+
+        guest.name = data['name']
+        guest.age = data['age']
+        guest.is_card = data['is_card']
 
         guest.save()
-        print(Fore.RED, " Apartment Saved".center(30, "*"), Fore.RESET)
+    
+    def remove_guest(self, name):
+        print(Fore.RED, " Guest removed ".center(30, "*"), Fore.RESET)
+        apartments = Guest.objects(name=name)
+        apartments.delete()
     
     def get_guests(self):
         guests = Guest.objects().order_by('name')

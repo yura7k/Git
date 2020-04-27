@@ -55,6 +55,7 @@ class AddReservationWindow(QMdiSubWindow):
         grid.addWidget(self.user_line_edit, 3, 0)
 
         new_user_btn = QPushButton("New User")
+        new_user_btn.clicked.connect(self.NewUser)
         grid.addWidget(new_user_btn, 3, 1)
 
         check_in_label = QLabel("Check-in")
@@ -92,6 +93,9 @@ class AddReservationWindow(QMdiSubWindow):
         date = datetime.date(int(splitData[2]), int(splitData[1]), int(splitData[0]))
         return date
 
+    @Slot()
+    def NewUser(self):
+        ShowUsers()
 
     @Slot()
     def SaveBooking(self):
