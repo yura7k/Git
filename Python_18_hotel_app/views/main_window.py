@@ -2,6 +2,7 @@ from PySide2.QtWidgets import *
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QFont, QPixmap
 from services.booking_service import Booking_service
+from services.apartment_service import Apartment_service
 
 class MainWindow(QMdiSubWindow):
     def __init__(self, mdi):
@@ -22,11 +23,14 @@ class MainWindow(QMdiSubWindow):
         vbox.addWidget(calendar)
 
         font = QFont("Helvetica", 14, 1, True)
-        label_apartments = QLabel("Apartments available: 10")
+        count_apt = "Apartments available - " + self.apartment_count()
+        label_apartments = QLabel(count_apt)
         label_apartments.setMinimumHeight(50)
         label_apartments.setFont(font)
         vbox.addWidget(label_apartments)
-        label_bookings = QLabel("Bookings created: 11")
+
+        count_book = "Bookings created - " + self.booking_count()
+        label_bookings = QLabel(count_book)
         label_bookings.setMinimumHeight(50)
         label_bookings.setFont(font)
         vbox.addWidget(label_bookings)
@@ -62,7 +66,7 @@ class MainWindow(QMdiSubWindow):
         widgetVerticalLayout = QVBoxLayout()
 
         image_label = QLabel("image placeholder")
-        image_label.setPixmap(QPixmap("./hotel app/icon.jpg"))
+        image_label.setPixmap(QPixmap("./Python_18_hotel_app/icon.jpg"))
         image_label.setMaximumWidth(50)
         widgetLayout.addWidget(image_label)
 
@@ -74,3 +78,13 @@ class MainWindow(QMdiSubWindow):
 
         widget.setLayout(widgetLayout)
         return widget
+
+    def booking_count(self):
+        bookings = Booking_service()
+        count = len(bookings.booking_list())
+        return str(count)
+    
+    def apartment_count(self):
+        apartments = Apartment_service()
+        count = len(apartments.apartments_list())
+        return str(count)
