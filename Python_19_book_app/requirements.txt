@@ -1,0 +1,4 @@
+colorama
+switchlang
+mysql-connector-python
+PrettyTable

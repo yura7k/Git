@@ -25,10 +25,10 @@ class BookApp(Gtk.Window):
         submenu_book = Gtk.Menu()    
         item_book.set_submenu(submenu_book)    
         
-        item_new = Gtk.MenuItem(label="Register book")
+        item_new = Gtk.ImageMenuItem(Gtk.STOCK_NEW, label="Register book")
         submenu_book.append(item_new)
         item_new.connect("activate", self.new_book)
-
+        
         item_info_book = Gtk.MenuItem(label="Book info")
         submenu_book.append(item_info_book)
         item_info_book.connect("activate", self.info_book)
@@ -36,6 +36,15 @@ class BookApp(Gtk.Window):
         item_book_list = Gtk.MenuItem(label="Book list")
         submenu_book.append(item_book_list)
         item_book_list.connect("activate", self.book_list)
+
+        #  add hotkeys book submenu
+        accelgroup = Gtk.AccelGroup()
+        self.add_accel_group(accelgroup)        
+        item_new.add_accelerator("activate", 
+                                accelgroup,
+                                Gdk.keyval_from_name("n"),
+                                Gdk.ModifierType.CONTROL_MASK,
+                                Gtk.AccelFlags.VISIBLE)
 
         #  add writers submenu
         item_writer = Gtk.MenuItem(label="Writer")
@@ -61,6 +70,13 @@ class BookApp(Gtk.Window):
         item_exit = Gtk.MenuItem(label="Exit")
         menubar.append(item_exit)
         item_exit.connect("activate", self.exit_program)
+        
+        #  add status bar
+        self.statusbar = Gtk.Statusbar()
+        self.statusbar.push(1, "Ready")
+
+        grid1 = Gtk.Grid()
+        grid1.add(self.statusbar)
 
         self.messagedialog = Gtk.MessageDialog(message_format="Info")
         self.messagedialog.set_transient_for(self)
@@ -95,9 +111,7 @@ class BookApp(Gtk.Window):
     def exit_program(self, widget):
         print("Windows quit")
         Gtk.main_quit()
-
-
-        
+      
 window = BookApp()
 window.show_all()
 Gtk.main()
