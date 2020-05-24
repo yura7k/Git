@@ -1,10 +1,12 @@
-My Web Service
+<h3> My Web Service </h3>
 
 export FLASK_DEBUG=1
 export FLASK_ENV=development
 
+<!-- Requirements -->
 pip install flask-sqlalchemy
 pip install flask-sqlalchemy mysql-connector
+pip install flask-admin
 py -m pip install flask_migrate
 
 <!-- DB Migration -->
