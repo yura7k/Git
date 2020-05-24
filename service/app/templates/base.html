@@ -40,21 +40,25 @@
                 </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('index') }}">News</a>
+              <a class="nav-link" href="{{ url_for('news') }}">News</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('index') }}">Contacts</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('create_form', name_form='post') }}">New post</a>
             </li>
             <!-- <li class="nav-item">
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </li> -->
           </ul>
 
-          <form class="form-inline my-2 my-lg-0">
+          <form class="form-inline my-lg-0" metod="GET">
             <a class="nav-link nav-dark" href="tel:+380675555500">067 555 55 00</a>
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ request.args.get('search', '') }}">
+
             <button class="btn btn-light" type="submit">Search</button>
-            <button class="btn btn-dark" type="submit">Log in</button>
+            <button class="btn btn-outline-danger m-2" type="submit">Log in</button>
           </form>
 
         </div>
@@ -67,7 +71,7 @@
                 {% endblock %}
             </h1>    
         </div>   
-        <div class="row">
+        <div class="main-content">
           {% block content %}
           {% endblock %}
         </div>

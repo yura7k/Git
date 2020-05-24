@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Create new {{ form_type }}    
+{% endblock %}
+
+{% block content_title %}
+    New {{ form_type }} 
+{% endblock %}
+
+{% block content %}
+
+    <form action="{{ url_for('create_form', name_form=form_type) }}" method="POST" class="col-md-6">
+        {% for field in form %}
+            <div class="form-group">
+                {% if field.type not in ['SubmitField']: %}
+                    {{ field.label(class='control-label') }}
+                    {{ field(class='form-control') }}
+                {% else: %}
+                    {{ field(class='form-control btn btn-outline-primary') }}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </form>
+    
+{% endblock %}

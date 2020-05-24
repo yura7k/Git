@@ -3,17 +3,20 @@ My Web Service
 export FLASK_DEBUG=1
 export FLASK_ENV=development
 
+pip install flask-sqlalchemy
 pip install flask-sqlalchemy mysql-connector
+py -m pip install flask_migrate
 
-py -m flask run
-
-<!-- Чомусь не працює пудключення до БД, інфу брав звідси
-
-https://docs.sqlalchemy.org/en/13/dialects/mysql.html#module-sqlalchemy.dialects.mysql.mysqlconnector -->
-
-<!-- pip install guess_language-spirit
-
+<!-- DB Migration -->
 py -m flask db init
 py -m flask db migrate
-py -m flask db upgrade -->
+py -m flask db upgrade
 
+<!--  Test DB fof incert Post -->
+>>> from app import db
+>>> from app.models import Post, Tag
+>>> p = Post(id= 3, title='Post 3', body='My post number 3')
+>>> db.session.add(u)
+>>> db.session.commit()
+
+py -m flask run

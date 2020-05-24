@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Book Library                
+{% endblock %}
+
+{% block content_title %}
+    Posts....
+{% endblock %}
+
+{% block content %}
+
+    {% for post in pages.items %}
+        <p>
+            <a href="{{ url_for('post_detail', slug=post.slug) }}">{{ post.title }}</a><br/>
+            <small><b>Created: {{ post.created }} <br/></b></small>
+        </p>
+    {% endfor %}
+
+    <!-- пагінація новин -->
+    <nav>
+        <ul class="pagination pagination justify-content-center">
+            <!-- попередня сторінка  -->
+            <li class="page-item {% if not pages.has_prev %}disabled{% endif %}">
+                <a class="page-link" href="./news?page={{ pages.prev_num }}">Previous</a>
+            </li>            
+
+            <!-- сторінки  -->
+            {% for page in pages.iter_pages() %}
+                <li class="page-item {% if page== pages.page %}active{% endif %}">
+                    <a class="page-link" href="./news?page={{page}}">{{page}}</a>
+                </li>
+            {% endfor%}
+            
+            <!-- наступна сторінка  -->
+            <li class="page-item {% if not pages.has_next %}disabled{% endif %}">
+                <a class="page-link" href="./news?page={{ pages.next_num }}">Next</a>
+            </li>
+        </ul>
+      </nav>
+
+{% endblock %}
