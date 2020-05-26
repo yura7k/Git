@@ -1,11 +1,13 @@
 from app import app
 from app import db
+
 from flask import render_template, request, redirect, url_for
+from flask_security import login_required
 
 from app.models import Post, Tag, User, db_commit
 from .forms import PostForm, TagForm, UserForm
 
-   
+
 @app.route('/') # індексна сторінка
 @app.route('/index')
 def index():
@@ -34,7 +36,7 @@ def news():
 
     return render_template('news.html', posts=posts, pages=pages)
 
-# http://localhost/<Post slug>
+# http://localhost/post/<Post slug>
 @app.route('/post/<slug>') # сторінка поста
 def post_detail(slug):
     post = Post.query.filter(Post.slug==slug).first()
@@ -50,7 +52,9 @@ def tag_detail(slug):
 
 # http://localhost/create/<form-name> 
 # сторінка генерації форм відповідно моделей у forms.py
+
 @app.route('/create/<name_form>', methods=['GET', 'POST'])  
+@login_required
 def create_form(name_form):
     if request.method == 'POST':
         if name_form == 'post':
@@ -65,9 +69,11 @@ def create_form(name_form):
             email = request.form['email']
             phone = request.form['phone']
             username = request.form['username']
-            user_type = request.form['user_type']
-            user = User(name=name, email=email, phone=phone, username=username, user_type=user_type)
-            user.set_password(request.form['password'])
+            password = request.form['password']
+            active = 1 if request.form['active'] else 0
+            user_datastore.create_user = User(name=name, email=email, phone=phone, username=username, \
+                                        password=password, active=active)
+            # user.set_password(request.form['password'])
             
             db_commit(data=user)
 

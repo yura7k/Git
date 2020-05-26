@@ -8,6 +8,10 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root:123456@localhost/service'
 
+    ### Flask-security
+    SECURITY_PASSWORD_SALT = 'salt'
+    SECURITY_PASSWORD_HASH = 'pbkdf2_sha256'
+
     
     # SQLALCHEMY_TRACK_MODIFICATIONS = False
     # MAIL_SERVER = os.environ.get('MAIL_SERVER')

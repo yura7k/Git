@@ -14,10 +14,15 @@
         {% for field in form %}
             <div class="form-group">
                 {% if field.type not in ['SubmitField']: %}
-                    {{ field.label(class='control-label') }}
-                    {{ field(class='form-control') }}
+                    {% if field.type in ['BooleanField']: %}
+                        {{ field.label(class='control-label') }}
+                        {{ field() }}
+                    {% else: %}
+                        {{ field.label(class='control-label') }}
+                        {{ field(class='form-control') }}
+                    {% endif %}
                 {% else: %}
-                    {{ field(class='form-control btn btn-outline-primary') }}
+                        {{ field(class='form-control btn btn-outline-primary') }}
                 {% endif %}
             </div>
         {% endfor %}

@@ -46,7 +46,14 @@
               <a class="nav-link" href="{{ url_for('index') }}">Contacts</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('create_form', name_form='post') }}">New post</a>
+              {% if current_user.has_role('ADMIN') %}
+                <a class="nav-link" href="{{ url_for('create_form', name_form='post') }}">New post</a>
+              {% endif %}
+            </li>
+            <li class="nav-item">
+              {% if current_user.has_role('ADMIN') %}
+                <a class="nav-link" href="/admin">Admin</a>
+              {% endif %}
             </li>
             <!-- <li class="nav-item">
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
@@ -58,7 +65,7 @@
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ request.args.get('search', '') }}">
 
             <button class="btn btn-light" type="submit">Search</button>
-            <button class="btn btn-outline-danger m-2" type="submit">Log in</button>
+            <button class="btn btn-outline-danger m-2" type="button" name="login">Log in</button>
           </form>
 
         </div>

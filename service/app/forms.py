@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, TextAreaField, SubmitField, PasswordField
+from wtforms import Form, StringField, TextAreaField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Email, EqualTo
 
 class PostForm(Form):
@@ -17,6 +17,6 @@ class UserForm(Form):
     username = StringField('Username:', validators=[DataRequired()])
     password = PasswordField('Password:', validators=[DataRequired()])
     password2 = PasswordField('Repeat Password:', validators=[DataRequired(), EqualTo('password')])
-    user_type = StringField('Enter user type:', validators=[DataRequired()])
+    active = BooleanField('Is Active User: ')
 
     submit = SubmitField('Register')

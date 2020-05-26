@@ -7,6 +7,7 @@ export FLASK_ENV=development
 pip install flask-sqlalchemy
 pip install flask-sqlalchemy mysql-connector
 pip install flask-admin
+pip install flask-security
 py -m pip install flask_migrate
 
 <!-- DB Migration -->
