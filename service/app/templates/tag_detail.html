@@ -4,15 +4,18 @@
     {{ tag.name }} posts
 {% endblock %}
 
-{% block content_title %}
-    Posts for "{{ tag.name }}":
-{% endblock %}
-
 {% block content %}
+<div class="col-md-10 offset-md-1">
+    <div style="height: 20px" class=""></div>
+    <div style="height: 50px" class="">
+      <h2 class="text-danger">Posts for "{{ tag.name }}":</h2>
+    </div>
     {% for post in posts %}
         <div class="post">
             <a href="{{ url_for('post_detail', slug=post.slug) }}">{{ post.title }}</a><br/>
             <small><b>Created: {{ post.created }} <br/></b></small>
         </div>            
     {% endfor %}  
+    <div style="height: 100px" class=""></div>
+</div>
 {% endblock %}

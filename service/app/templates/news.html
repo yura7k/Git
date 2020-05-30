@@ -4,12 +4,12 @@
     Book Library
 {% endblock %}
 
-{% block content_title %}
-    Posts....
-{% endblock %}
-
 {% block content %}
-
+<div class="col-md-0 offset-md-1">
+    <div style="height: 20px" class=""></div>
+    <div style="height: 50px" class="">
+        <h2 class="text-danger">Posts....</h2>
+    </div>
     {% for post in pages.items %}
         <p>
             <a href="{{ url_for('post_detail', slug=post.slug) }}">{{ post.title }}</a><br/>

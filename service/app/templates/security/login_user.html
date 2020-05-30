@@ -4,15 +4,15 @@
   Login
 {% endblock %}
 
-{% block content_title %}
-  {{ _('Login') }}
-{% endblock %}
-
 {% block content %}
-
-  {% from "security/_macros.html" import render_field_with_errors, render_field %}
-  {% include "security/_messages.html" %}
-  <div class="col-md-offset-3 col-md-4">
+  <div class="col-md-4 offset-md-4">
+    <div style="height: 20px" class=""></div>
+    <div style="height: 50px" class="">
+      <h2 class="text-danger">{{ _('Login') }}</h2>
+    </div>
+    {% from "security/_macros.html" import render_field_with_errors, render_field %}
+    {% include "security/_messages.html" %}
+  
       <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
         {{ login_user_form.hidden_tag() }}
         {{ render_field_with_errors(login_user_form.email, class='form-control') }}
@@ -21,7 +21,12 @@
         {{ render_field(login_user_form.next) }}
         {{ render_field(login_user_form.submit, class='form-control btn btn-outline-primary') }}
       </form>
+      <p>{{ _('New User?') }} <a href="{{ url_for('register') }}">{{ _('Click to Register!') }}</a></p>
+      <!-- <p>
+          {{ _('Forgot Your Password?') }}
+          <a href="{{ url_for('index') }}">{{ _('Click to Reset It') }}</a>
+      </p> -->
+      <div style="height: 100px" class=""></div>
   </div>
-  {% include "security/_menu.html" %}
 
 {% endblock %}

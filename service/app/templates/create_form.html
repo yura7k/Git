@@ -4,19 +4,24 @@
     Create new {{ form_type }}    
 {% endblock %}
 
-{% block content_title %}
-    New {{ form_type }} 
-{% endblock %}
-
 {% block content %}
+    <div class="col-md-4 offset-md-4">
+        <div style="height: 20px" class=""></div>
+        <div style="height: 50px" class="">
+            <h2 class="text-danger">{{ title }}</h2>
+        </div>
+        {% if form_type == 'user' %}
+            <form action="{{ url_for('register') }}" method="POST">
+        {% else%}
+            <form action="{{ url_for('create_form', name_form=form_type) }}" method="POST">
+        {% endif %}
 
-    <form action="{{ url_for('create_form', name_form=form_type) }}" method="POST" class="col-md-6">
         {% for field in form %}
             <div class="form-group">
                 {% if field.type not in ['SubmitField']: %}
                     {% if field.type in ['BooleanField']: %}
-                        {{ field.label(class='control-label') }}
-                        {{ field() }}
+                        {{ field(class='form-check-control') }}
+                        {{ field.label(class='form-check-label') }}                        
                     {% else: %}
                         {{ field.label(class='control-label') }}
                         {{ field(class='form-control') }}
@@ -26,6 +31,8 @@
                 {% endif %}
             </div>
         {% endfor %}
-    </form>
+        </form>
+        <div style="height: 100px" class=""></div>
+    </div>>
     
 {% endblock %}

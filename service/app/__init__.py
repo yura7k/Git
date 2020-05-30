@@ -11,7 +11,7 @@ from flask_security import SQLAlchemySessionUserDatastore, Security, current_use
 
 from config import Config
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 app.config.from_object(Config)
 
 # config DB and migrate
@@ -23,14 +23,6 @@ from app.models import *
 
 # перевіряємо чи користувач ADMIN чи може івін переходити в адмінку
 # перевизначаємо методи is_accessible та inaccessible_callback клас AdminIndexView
-# варіант 1
-# class AdminView(ModelView):
-#     def is_accessible(self):
-#         return current_user.has_role('ADMIN')
-    
-#     def inaccessible_callback(self, **kwargs):
-#         return redirect(url_for('security.login', next=request.url))
-
 class HomeAdminView(AdminIndexView):
     def is_accessible(self):
         return current_user.has_role('ADMIN')
@@ -38,17 +30,29 @@ class HomeAdminView(AdminIndexView):
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('security.login', next=request.url))
 
-# перевизначаємо метод on_model_change клас ModelView, щоб автоматично генерувались поcилання
+# перевизначаємо метод on_model_change Admin панелі
+# клас ModelView, щоб автоматично генерувались поcилання
 class BaseModelView(ModelView):
     def on_model_change(self, form, model, is_created):
         model.generate_slug()
         return super(BaseModelView, self).on_model_change(form, model, is_created)
 
+# клас ModelView Admin панелі, щоб поля password не відображались в адмінці
+class UserModelView(ModelView):
+    # Не показувати пароль у списку Users
+    column_exclude_list = list = ('password',)
+
+    # Не включайте стандартне поле пароля під час створення або редагування User
+    form_excluded_columns = ('password',)
+    
 admin = Admin(app, 'FlaskApp', url='/', index_view=HomeAdminView())
 admin.add_view(BaseModelView(Post, db.session))
 admin.add_view(BaseModelView(Tag, db.session))
-admin.add_view(ModelView(User, db.session))
+admin.add_view(UserModelView(User, db.session))
 admin.add_view(ModelView(Role, db.session))
+admin.add_view(ModelView(Service, db.session))
+admin.add_view(ModelView(Service_category, db.session))
+admin.add_view(ModelView(Order, db.session))
 
 # comfig Flask-Security
 user_datastore = SQLAlchemySessionUserDatastore(db.session, User, Role)
