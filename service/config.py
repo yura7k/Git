@@ -11,6 +11,9 @@ class Config(object):
     ### Flask-security
     SECURITY_PASSWORD_SALT = 'salt'
     SECURITY_PASSWORD_HASH = 'pbkdf2_sha256'
+    
+    ### Google maps API key
+    GOOGLEMAPS_KEY = 'AIzaSyA452LdHNov83aWa2feptPwDSbLMMhMMYE'
 
     
     # SQLALCHEMY_TRACK_MODIFICATIONS = False

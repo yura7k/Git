@@ -1,56 +1,19 @@
 from app import app
-from app import db, user_datastore, security
+from app import db, user_datastore, security, maps
 
 from flask import render_template, request, redirect, url_for, flash
 from flask_security import login_required, SQLAlchemySessionUserDatastore, utils
 
-from app.models import Post, Tag, User, db_commit
-from .forms import PostForm, TagForm, UserForm, RegistrationForm
+from flask_googlemaps import Map
+
+from app.models import Post, Tag, User, Service, db_commit
+from .forms import NewsForm, TagForm, RegistrationForm, OrderForm
 
 
 @app.route('/') # індексна сторінка
 @app.route('/index')
 def index():
-    name = 'Yuriy'
-    return render_template('index.html', name=name)
-
-@app.route('/news') # сторінка новин
-def news():
-    # фільтруємо новини за пошуком
-    q = request.args.get('search')
-
-    if q:
-        posts = Post.query.filter(Post.title.contains(q) | Post.body.contains(q)) #.all()
-    else:
-        posts = Post.query.order_by(Post.created.desc())
-
-    page = request.args.get('page')
-
-    # пагінація сторінок новин
-    if page and page.isdigit():
-        page = int(page)
-    else:
-        page = 1
-
-    pages = posts.paginate(page=page, per_page=7)
-
-    return render_template('news.html', posts=posts, pages=pages)
-
-# http://localhost/post/<Post slug>
-@app.route('/post/<slug>') # сторінка поста
-def post_detail(slug):
-    post = Post.query.filter(Post.slug==slug).first()
-    tags = post.tags
-    return render_template('post_detail.html', post=post, tags=tags)
-
-# http://localhost/tag/<Tag slug>
-@app.route('/tag/<slug>') # Сторінка новин за тагом
-def tag_detail(slug):
-    tag = Tag.query.filter(Tag.slug==slug).first()
-    for i in tag.posts:
-        print(i)
-    posts = tag.posts
-    return render_template('tag_detail.html', posts=posts, tag=tag)
+    return render_template('index.html')
 
 # http://localhost/register
 # сторінка генерації реєстрації користувача
@@ -65,12 +28,12 @@ def register():
         active = True
         user_datastore.create_user(name=name, email=email, phone=phone, username=username, password=password, active=active)
         db.session.commit()
-        flash('Congratulations, you are now a registered user!')
+        flash('Вітаємо! Ви зареєстровані!')
                 
         return redirect(url_for('security.login'))
     
     name_form = 'user'
-    title = 'Register new user'
+    title = 'Реєстрація користувача'
     form = RegistrationForm()    
 
     return render_template('create_form.html', form=form, form_type=name_form, title=title)
@@ -96,13 +59,84 @@ def create_form(name_form):
         
         return redirect(url_for('news'))
 
-    if name_form == 'post':
-        form = PostForm()
-        title = 'Create news'
+    if name_form == 'news':
+        form = NewsForm()
+        title = 'Створити новину'
     elif name_form == 'tag':
         form = TagForm()
-        title = 'Create new tag'
+        title = 'Створити tag'
+    elif name_form == 'order':
+        form = OrderForm()
+        title = 'Записатись на СТО'
     else:
         return redirect(url_for('news'))
 
     return render_template('create_form.html', form=form, form_type=name_form, title=title)
+
+# http://localhost/post/<Post slug>
+@app.route('/post/<slug>') # сторінка поста
+def post_detail(slug):
+    post = Post.query.filter(Post.slug==slug).first()
+    tags = post.tags
+    return render_template('post_detail.html', post=post, tags=tags)
+
+# http://localhost/tag/<Tag slug>
+@app.route('/tag/<slug>') # Сторінка новин за тагом
+def tag_detail(slug):
+    tag = Tag.query.filter(Tag.slug==slug).first()
+    for i in tag.posts:
+        print(i)
+    posts = tag.posts
+    return render_template('tag_detail.html', posts=posts, tag=tag)
+
+@app.route('/news') # сторінка новин
+def news():
+    # фільтруємо новини за пошуком
+    search = request.args.get('search')
+
+    if search:
+        posts = Post.query.filter(Post.title.contains(search) | Post.body.contains(search))
+
+    else:
+        posts = Post.query.order_by(Post.created.desc())
+
+    # пагінація сторінок новин
+    page = request.args.get('page')
+    
+    if page and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    pages = posts.paginate(page=page, per_page=6)
+
+    return render_template('news.html', posts=posts, pages=pages, search=search)
+
+@app.route('/price') # сторінка новин
+def price():
+    
+    price = Service.query.order_by(Service.id)
+
+    # пагінація сторінок новин
+    page = request.args.get('page')
+
+    if page and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    pages = price.paginate(page=page, per_page=10)
+
+    return render_template('price.html', price=price, pages=pages)
+
+@app.route("/contacts")
+def contacts():
+    # задаємо координати для карти
+    mymap = Map(
+        identifier="iService",
+        lat=49.4090433,
+        lng=27.0124982,
+        markers=[(49.4090433, 27.0124982)]
+    )
+
+    return render_template('contacts.html', mymap=mymap)

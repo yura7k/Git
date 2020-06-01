@@ -1,40 +1,58 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Book Library
+    Наші новини
 {% endblock %}
 
 {% block content %}
 <div class="col-md-0 offset-md-1">
     <div style="height: 20px" class=""></div>
     <div style="height: 50px" class="">
-        <h2 class="text-danger">Posts....</h2>
+        <h2 class="text-danger">Наші новини</h2>
     </div>
-    {% for post in pages.items %}
-        <p>
-            <a href="{{ url_for('post_detail', slug=post.slug) }}">{{ post.title }}</a><br/>
-            <small><b>Created: {{ post.created }} <br/></b></small>
-        </p>
-    {% endfor %}
+    <div class="card">
+        {% for post in pages.items %}
+        <div class="card-header">
+            <h5 class="card-title">{{ post.title }}</h5>
+        </div>
+        <div class="card-body">
+          <small>Created: {{ post.created }} <br/></small>
+          <p class="card-text">{{ post.body[:1000] }}</p>
+          <a href="{{ url_for('post_detail', slug=post.slug) }}">Читати далі...</a><br/>
+        </div>
+        {% endfor %}
+      </div>
 
     <!-- пагінація новин -->
     <nav>
         <ul class="pagination pagination justify-content-center">
             <!-- попередня сторінка  -->
             <li class="page-item {% if not pages.has_prev %}disabled{% endif %}">
-                <a class="page-link" href="./news?page={{ pages.prev_num }}">Previous</a>
+                {% if search %}
+                    <a class="page-link" href="./news?search={{ search }}&page={{ pages.prev_num }}">Попередня</a>
+                {% else %}
+                    <a class="page-link" href="./news?page={{ pages.prev_num }}">Попередня</a>
+                {% endif %}
             </li>            
 
             <!-- сторінки  -->
             {% for page in pages.iter_pages() %}
-                <li class="page-item {% if page== pages.page %}active{% endif %}">
+                <li class="page-item {% if page == pages.page %}active{% endif %}"></li>
+                {% if search %}
+                    <a class="page-link" href="./news?search={{ search }}&page={{page}}">{{page}}</a>
+                {% else %}
                     <a class="page-link" href="./news?page={{page}}">{{page}}</a>
+                {% endif %}
                 </li>
             {% endfor%}
             
             <!-- наступна сторінка  -->
             <li class="page-item {% if not pages.has_next %}disabled{% endif %}">
-                <a class="page-link" href="./news?page={{ pages.next_num }}">Next</a>
+                {% if search %}
+                    <a class="page-link" href="./news?search={{ search }}&page={{ pages.next_num }}">Наступна</a>
+                {% else %}
+                    <a class="page-link" href="./news?page={{ pages.next_num }}">Наступна</a>
+                {% endif %}
             </li>
         </ul>
       </nav>

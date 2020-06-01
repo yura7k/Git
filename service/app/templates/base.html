@@ -10,7 +10,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="
     sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
+    {% block scripts %}
+    {% endblock %}
     <title>
       {% block title%}
       {% endblock %} | iService
@@ -26,32 +27,36 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{{ url_for('index') }}"><img src="img/home-24px.svg" alt=""></a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="{{ url_for('index') }}" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Services
+                  Сервіс
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Registration service</a>
-                  <a class="dropdown-item" href="#">Price</a>
-                  <a class="dropdown-item" href="#">Our workers</a>
+                  <a class="dropdown-item" href="{{ url_for('create_form', name_form='order') }}">Записатись на СТО</a>
+                  <a class="dropdown-item" href="{{ url_for('price') }}">Наші послуги</a>
                 </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('news') }}">News</a>
+              <a class="nav-link" href="{{ url_for('news') }}">Новини</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('index') }}">Contacts</a>
+              <a class="nav-link" href="{{ url_for('contacts') }}">Контакти</a>
             </li>
             <li class="nav-item">
               {% if current_user.has_role('ADMIN') %}
-                <a class="nav-link" href="{{ url_for('create_form', name_form='post') }}">New post</a>
+                <a class="nav-link">|</a>
               {% endif %}
             </li>
             <li class="nav-item">
               {% if current_user.has_role('ADMIN') %}
-                <a class="nav-link" href="/admin">Admin</a>
+                <a class="nav-link" href="{{ url_for('create_form', name_form='news') }}">Створити новину</a>
+              {% endif %}
+            </li>
+            <li class="nav-item">
+              {% if current_user.has_role('ADMIN') %}
+                <a class="nav-link" href="/admin">Адміністратор</a>
               {% endif %}
             </li>
             <!-- <li class="nav-item">
@@ -61,14 +66,14 @@
 
           <form class="form-inline my-lg-0" metod="GET">
             <a class="nav-link nav-dark" href="tel:+380675555500">067 555 55 00</a>
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ request.args.get('/news?search', '') }}">
+            <input class="form-control mr-sm-2" type="search" placeholder="Пошук" aria-label="Search" name="search" value="{{ request.args.get('/news?search', '') }}">
 
-            <button class="btn btn-light" type="submit">Search</button>
+            <button class="btn btn-light" type="submit">Пошук</button>
                         
             {% if current_user.is_authenticated %}
-              <a href="{{ url_for('security.logout') }}" class="btn btn-outline-danger m-2">Log out</a>
+              <a href="{{ url_for('security.logout') }}" class="btn btn-outline-danger m-2">Вийти</a>
             {% else %}
-              <a href="{{ url_for('security.login') }}" class="btn btn-danger m-2">Log in</a>
+              <a href="{{ url_for('security.login') }}" class="btn btn-danger m-2">Увійти</a>
             {% endif %}
             
           </form>
@@ -88,5 +93,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.uk.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css"/>
 </body>
 </html>

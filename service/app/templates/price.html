@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Прейскурант послуг
+{% endblock %}
+
+{% block content %}
+<div class="col-md-10 offset-md-1">
+    <div style="height: 20px" class=""></div>
+    <div style="height: 50px" class="">
+        <h2 class="text-danger">Прейскурант послуг</h2>
+    </div>
+    <table class="table table-striped">
+        <thead class="thead-dark text-center">
+          <tr>
+            <th scope="col">№<br><br></th>
+            <th scope="col">Назва роботи<br><br></th>
+            <th scope="col">Опис<br><br></th>
+            <th scope="col">Ціна<br><br></th>
+            <th scope="col">Термін виконання <br>(дні)</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for price in pages.items %}
+            <tr>
+                <th scope="row">{{ price.id }}</th>
+                <td>{{ price.name }}</td>
+                <td>{{ price.description }}</td>
+                <td>{{ price.price }}</td>
+                <td>{{ price.deadline }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- пагінація новин -->
+    <nav>
+        <ul class="pagination pagination justify-content-center">
+            <!-- попередня сторінка  -->
+            <li class="page-item {% if not pages.has_prev %}disabled{% endif %}">
+                <a class="page-link" href="./price?page={{ pages.prev_num }}">Попередня</a>
+            </li>            
+
+            <!-- сторінки  -->
+            {% for page in pages.iter_pages() %}
+                <li class="page-item {% if page == pages.page %}active{% endif %}"></li>
+                    <a class="page-link" href="./price?page={{page}}">{{page}}</a>
+                </li>
+            {% endfor%}
+            
+            <!-- наступна сторінка  -->
+            <li class="page-item {% if not pages.has_next %}disabled{% endif %}">
+                <a class="page-link" href="./price?page={{ pages.next_num }}">Наступна</a>
+            </li>
+        </ul>
+      </nav>
+
+{% endblock %}

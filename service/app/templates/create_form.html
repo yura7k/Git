@@ -23,8 +23,18 @@
                         {{ field(class='form-check-control') }}
                         {{ field.label(class='form-check-label') }}                        
                     {% else: %}
-                        {{ field.label(class='control-label') }}
-                        {{ field(class='form-control') }}
+                        {% if field.type in ['DateField']: %}
+                            {{ field.label(class='control-label') }}
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar-check-o"></i>
+                                </div>
+                                {{ field(class='form-control', placeholder='DD/MM/YYYY') }}
+                            </div>  
+                        {% else: %}                  
+                            {{ field.label(class='control-label') }}
+                            {{ field(class='form-control') }}
+                        {% endif %}
                     {% endif %}
                 {% else: %}
                         {{ field(class='form-control btn btn-outline-primary') }}
@@ -34,5 +44,15 @@
         </form>
         <div style="height: 100px" class=""></div>
     </div>>
-    
+    <script>
+        $('.form-group .input-group.date').datepicker({
+            clearBtn: true,
+            language: "uk",
+            multidate: true,
+            daysOfWeekHighlighted: "0,6",
+            todayHighlight: true,
+            datesDisabled: ['06/06/2020', '06/21/2020'],
+            toggleActive: true
+        });
+    </script>
 {% endblock %}

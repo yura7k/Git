@@ -8,7 +8,7 @@
   <div class="col-md-4 offset-md-4">
     <div style="height: 20px" class=""></div>
     <div style="height: 50px" class="">
-      <h2 class="text-danger">{{ _('Login') }}</h2>
+      <h2 class="text-danger">{{ _('Увійти') }}</h2>
     </div>
     {% from "security/_macros.html" import render_field_with_errors, render_field %}
     {% include "security/_messages.html" %}
@@ -21,7 +21,7 @@
         {{ render_field(login_user_form.next) }}
         {{ render_field(login_user_form.submit, class='form-control btn btn-outline-primary') }}
       </form>
-      <p>{{ _('New User?') }} <a href="{{ url_for('register') }}">{{ _('Click to Register!') }}</a></p>
+      <p>{{ _('Ще не зареєстровані?') }} <a href="{{ url_for('register') }}">{{ _('Клік для реєстрації!') }}</a></p>
       <!-- <p>
           {{ _('Forgot Your Password?') }}
           <a href="{{ url_for('index') }}">{{ _('Click to Reset It') }}</a>

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Сервіс-центр iService
+{% endblock %}
+
+{% block scripts %}
+    {{"decoupled-map"|googlemap_js(49.4090433, 27.0124982, markers=[(49.4090433, 27.0124982)])}}
+    {{mymap.js}}
+{% endblock %}
+
+{% block content %}
+<div class="col-md-0 offset-md-1">
+    <div style="height: 20px"></div>
+    <h2 class="text-danger">Наша адреса</h1>
+        
+    <p>29000, м.Хмельницький<br>
+        вул.Трудова 19 <br>
+        <span class="text-danger">Сервіс-центр iService</span>
+    </p>
+
+    {{"decoupled-map"|googlemap_html(49.4090433, 27.0124982)}}
+
+    <div style="height: 20px"></div>
+</div>
+{% endblock %}

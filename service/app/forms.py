@@ -1,34 +1,32 @@
-from wtforms import Form, StringField, TextAreaField, SubmitField, PasswordField, BooleanField
+from wtforms import Form, StringField, TextAreaField, SubmitField, PasswordField, BooleanField, DateField
 from wtforms.validators import DataRequired, Email, EqualTo
 
 from flask_security.forms import RegisterForm
 
-class PostForm(Form):
-    title = StringField('Title:', validators=[DataRequired()])
-    body = TextAreaField('Body:', validators=[DataRequired()])
-    submit = SubmitField('Create post')
+class NewsForm(Form):
+    title = StringField('Заголовок:', validators=[DataRequired()])
+    body = TextAreaField('Текст новини:', validators=[DataRequired()])
+    submit = SubmitField('Створити новину')
 
 class TagForm(Form):
-    name = StringField('Name:', validators=[DataRequired()])
-    submit = SubmitField('Create tag')
-
-class UserForm(Form):
-    name = StringField('Name:', validators=[DataRequired()])
-    email = StringField('Email:', validators=[DataRequired(), Email()])
-    phone = StringField('Phone number:', validators=[DataRequired()])
-    username = StringField('Username:', validators=[DataRequired()])
-    password = PasswordField('Password:', validators=[DataRequired()])
-    password2 = PasswordField('Repeat Password:', validators=[DataRequired(), EqualTo('password')])
-    active = BooleanField('Is Active User: ')
-
-    submit = SubmitField('Register')
+    name = StringField('Назва:', validators=[DataRequired()])
+    submit = SubmitField('Створити tag')
 
 class RegistrationForm(RegisterForm):
-    name = StringField('Name:', validators=[DataRequired()])
-    email = StringField('Email:', validators=[DataRequired(), Email()])
-    phone = StringField('Phone number:', validators=[DataRequired()])
-    username = StringField('Username:', validators=[DataRequired()])
-    password = PasswordField('Password:', validators=[DataRequired()])
-    password_confirm = PasswordField('Retype Password:', validators=[DataRequired(), EqualTo('password')])
+    name = StringField('ПІБ:', validators=[DataRequired()])
+    email = StringField('E-mail:', validators=[DataRequired(), Email()])
+    phone = StringField('Номер телефону:', validators=[DataRequired()])
+    username = StringField('Ім’я користувача:', validators=[DataRequired()])
+    password = PasswordField('Пароль:', validators=[DataRequired()])
+    password_confirm = PasswordField('Повтор паролю:', validators=[DataRequired(), EqualTo('password')])
 
-    submit = SubmitField('Register')
+    submit = SubmitField('Зареєструвати')
+
+class OrderForm(Form):
+    service = StringField('Вид ремонту:', validators=[DataRequired()])
+    name_auto = StringField('Модель авто:', validators=[DataRequired()])
+    vin = StringField('VIN:', validators=[DataRequired()])
+    timefrom = DateField('Дата звернення:', validators=[DataRequired()])
+    comment = StringField('Коментар:', validators=[DataRequired()])
+
+    submit = SubmitField('Відправити')

@@ -9,6 +9,8 @@ from flask_admin.contrib.sqla import ModelView
 from flask_security import SQLAlchemySessionUserDatastore, Security, current_user
 # from flask_script import Manage
 
+from flask_googlemaps import GoogleMaps
+
 from config import Config
 
 app = Flask(__name__, static_url_path='')
@@ -57,6 +59,9 @@ admin.add_view(ModelView(Order, db.session))
 # comfig Flask-Security
 user_datastore = SQLAlchemySessionUserDatastore(db.session, User, Role)
 security = Security(app, user_datastore)
+
+# comfig Flask-Google maps
+maps = GoogleMaps(app)
 
 from app import view, models
 
