@@ -5,6 +5,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config(object):
     FLASK_DEBUG=1
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+
+    ### Flask SQLAlchemy
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root:123456@localhost/service'
 
@@ -15,13 +17,12 @@ class Config(object):
     ### Google maps API key
     GOOGLEMAPS_KEY = 'AIzaSyA452LdHNov83aWa2feptPwDSbLMMhMMYE'
 
-    
-    # SQLALCHEMY_TRACK_MODIFICATIONS = False
-    # MAIL_SERVER = os.environ.get('MAIL_SERVER')
-    # MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
-    # MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
-    # MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    # MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    # ADMINS = ['your-email@example.com']
-    # LANGUAGES = ['en', 'es']
-    # POSTS_PER_PAGE = 25
+    # Flask mail
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 465
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = 'vasyaxxxx'
+    MAIL_PASSWORD = 'motherlandvasyaxxxx'
+    ADMINS = ['your-email@example.com']
+    POSTS_PER_PAGE = 25

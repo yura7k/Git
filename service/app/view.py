@@ -1,13 +1,16 @@
+import datetime
+
 from app import app
 from app import db, user_datastore, security, maps
 
 from flask import render_template, request, redirect, url_for, flash
-from flask_security import login_required, SQLAlchemySessionUserDatastore, utils
+from flask_security import login_required, current_user, SQLAlchemySessionUserDatastore, utils, url_for_security
 
 from flask_googlemaps import Map
 
-from app.models import Post, Tag, User, Service, db_commit
-from .forms import NewsForm, TagForm, RegistrationForm, OrderForm
+from app.email import send_password_reset_email
+from app.models import Post, Tag, User, Service, Order, db_commit
+from .forms import NewsForm, TagForm, RegistrationForm, OrderForm, ResetPasswordRequestForm
 
 
 @app.route('/') # індексна сторінка
@@ -38,6 +41,42 @@ def register():
 
     return render_template('create_form.html', form=form, form_type=name_form, title=title)
 
+# http://localhost/create/order
+# сторінка запису на СТО
+@app.route('/create_order', methods=['GET', 'POST'])  
+def create_order():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        phone = request.form['phone']
+        username = request.form['email']
+        password = utils.encrypt_password('123456')
+        active = True
+        user_datastore.create_user(name=name, email=email, phone=phone, username=username, password=password, active=active)
+        db.session.commit()
+        flash('Вітаємо! Ви зареєстровані! Ваш пароль 123456')
+
+        user = User.query.filter_by(email=request.form['email']).first()
+        user_id = user.id
+        name_auto = request.form['name_auto']
+        vin = request.form['vin']
+        timefrom = request.form['timefrom']
+        timeto = request.form['timefrom']
+        comment = request.form['comment']
+
+        order = Order(user_id=user_id, name_auto=name_auto, vin=vin, timefrom=timefrom, timeto=timeto, comment=comment)
+        db_commit(data=order)
+
+        return redirect(url_for('index'))
+    
+    form = OrderForm()
+    title = 'Записатись на СТО'
+
+    if current_user.is_authenticated:
+        return render_template('create_form.html', form=form, form_type='order', title=title, user=current_user)
+    else:
+        return render_template('create_form.html', form=form, form_type='order', title=title)
+
 # http://localhost/create/<form-name> 
 # сторінка генерації форм відповідно моделей у forms.py
 @app.route('/create/<name_form>', methods=['GET', 'POST'])  
@@ -65,9 +104,6 @@ def create_form(name_form):
     elif name_form == 'tag':
         form = TagForm()
         title = 'Створити tag'
-    elif name_form == 'order':
-        form = OrderForm()
-        title = 'Записатись на СТО'
     else:
         return redirect(url_for('news'))
 
@@ -140,3 +176,18 @@ def contacts():
     )
 
     return render_template('contacts.html', mymap=mymap)
+
+@app.route('/reset_password_request', methods=['GET', 'POST'])
+def reset_password_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = ResetPasswordRequestForm()
+    if request.method == 'POST':
+        user = User.query.filter_by(email=request.form['email']).first()
+        if user:
+            send_password_reset_email(user)
+        flash('Check your email for the instructions to reset your password')
+        return redirect(url_for('login'))
+
+    return render_template('reset_password_request.html',
+                           title='Reset Password', form=form)

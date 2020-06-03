@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
+{% block scripts %}
+    <!-- Add bootstrap-datepicker -->
+    <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.uk.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% endblock %}
+
 {% block title %}
     Create new {{ form_type }}    
 {% endblock %}
@@ -13,7 +21,11 @@
         {% if form_type == 'user' %}
             <form action="{{ url_for('register') }}" method="POST">
         {% else%}
-            <form action="{{ url_for('create_form', name_form=form_type) }}" method="POST">
+            {% if form_type == 'order' %}    
+                <form action="{{ url_for('create_order') }}" method="POST">
+            {% else%}
+                <form action="{{ url_for('create_form', name_form=form_type) }}" method="POST">
+            {% endif %}
         {% endif %}
 
         {% for field in form %}
@@ -25,13 +37,13 @@
                     {% else: %}
                         {% if field.type in ['DateField']: %}
                             {{ field.label(class='control-label') }}
-                            <div class="input-group date">
+                            <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar-check-o"></i>
                                 </div>
-                                {{ field(class='form-control', placeholder='DD/MM/YYYY') }}
+                                {{ field(class='form-control',  id='datepicker', placeholder='DD/MM/YYYY') }}
                             </div>  
-                        {% else: %}                  
+                        {% else: %}               
                             {{ field.label(class='control-label') }}
                             {{ field(class='form-control') }}
                         {% endif %}
@@ -45,13 +57,16 @@
         <div style="height: 100px" class=""></div>
     </div>>
     <script>
-        $('.form-group .input-group.date').datepicker({
+        $('#datepicker').datepicker({
+            // format: 'mm/dd/yyyy',
+            // startDate: '-3d'
             clearBtn: true,
             language: "uk",
             multidate: true,
             daysOfWeekHighlighted: "0,6",
             todayHighlight: true,
-            datesDisabled: ['06/06/2020', '06/21/2020'],
+            datesDisabled: [],
+            // datesDisabled: ['06/06/2020', '05/06/2020', '07/06/2020', '08/06/2020'],
             toggleActive: true
         });
     </script>

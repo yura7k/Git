@@ -6,6 +6,8 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 
+from flask_mail import Mail, Message
+
 from flask_security import SQLAlchemySessionUserDatastore, Security, current_user
 # from flask_script import Manage
 
@@ -19,6 +21,9 @@ app.config.from_object(Config)
 # config DB and migrate
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+# config Flask Mail
+mail = Mail(app)
 
 # config Flask-ADMIN
 from app.models import *
