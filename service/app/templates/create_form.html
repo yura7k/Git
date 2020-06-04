@@ -49,13 +49,13 @@
                         {% endif %}
                     {% endif %}
                 {% else: %}
-                        {{ field(class='form-control btn btn-outline-primary') }}
+                    {{ field(class='form-control btn btn-outline-primary') }}
                 {% endif %}
             </div>
         {% endfor %}
         </form>
-        <div style="height: 100px" class=""></div>
-    </div>>
+        <div style="height: 150px" class=""></div>
+    </div>
     <script>
         $('#datepicker').datepicker({
             // format: 'mm/dd/yyyy',
@@ -65,8 +65,8 @@
             multidate: true,
             daysOfWeekHighlighted: "0,6",
             todayHighlight: true,
-            datesDisabled: [],
-            // datesDisabled: ['06/06/2020', '05/06/2020', '07/06/2020', '08/06/2020'],
+            // datesDisabled: [],
+            datesDisabled: ['06/06/2020', '05/06/2020', '07/06/2020', '08/06/2020'],
             toggleActive: true
         });
     </script>

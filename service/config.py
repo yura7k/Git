@@ -22,7 +22,7 @@ class Config(object):
     MAIL_PORT = 465
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
-    MAIL_USERNAME = 'vasyaxxxx'
-    MAIL_PASSWORD = 'motherlandvasyaxxxx'
-    ADMINS = ['your-email@example.com']
+    MAIL_USERNAME = 'vasyaxxxx@gmail.com'
+    MAIL_PASSWORD = 'udbpfpmqpfcjpqhd'
+    ADMINS = ['vasyaxxxx@gmail.com']
     POSTS_PER_PAGE = 25

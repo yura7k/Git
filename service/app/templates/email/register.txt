@@ -1,0 +1,9 @@
+Шановний {{ user.username }},
+
+Вас зареєстровано!!!
+
+{{ url_for('index', _external=True) }}
+
+З повагою,
+
+Команда iService

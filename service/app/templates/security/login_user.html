@@ -22,11 +22,10 @@
         {{ render_field(login_user_form.submit, class='form-control btn btn-outline-primary') }}
       </form>
       <p>{{ _('Ще не зареєстровані?') }} <a href="{{ url_for('register') }}">{{ _('Клік для реєстрації!') }}</a></p>
-      <!-- <p>
-          {{ _('Forgot Your Password?') }}
-          <a href="{{ url_for('index') }}">{{ _('Click to Reset It') }}</a>
-      </p> -->
-      <div style="height: 100px" class=""></div>
+      <p>
+          {{ _('Забули пароль?') }}
+          <a href="{{ url_for('reset_password_request') }}">{{ _('Натисніть щоб відновити') }}</a>
+      </p>
   </div>
 
 {% endblock %}

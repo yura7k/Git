@@ -21,7 +21,7 @@
           <a href="{{ url_for('post_detail', slug=post.slug) }}">Читати далі...</a><br/>
         </div>
         {% endfor %}
-      </div>
+    </div>
 
     <!-- пагінація новин -->
     <nav>
@@ -37,7 +37,7 @@
 
             <!-- сторінки  -->
             {% for page in pages.iter_pages() %}
-                <li class="page-item {% if page == pages.page %}active{% endif %}"></li>
+                <li class="page-item {% if page == pages.page %}active{% endif %}">
                 {% if search %}
                     <a class="page-link" href="./news?search={{ search }}&page={{page}}">{{page}}</a>
                 {% else %}
@@ -56,5 +56,6 @@
             </li>
         </ul>
       </nav>
-
+</div>
+<div style="height: 150px" class=""></div>
 {% endblock %}

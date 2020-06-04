@@ -1,9 +1,11 @@
 from datetime import datetime
 import re
-from app import db
+import jwt
+from time import time
+from app import db, app
 
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_security import UserMixin, RoleMixin
+from flask_security import UserMixin, RoleMixin, utils
 
 # конвертує назву в URL подібний текст
 def slugify(title):
@@ -16,8 +18,10 @@ def db_commit(data):
         # for i in dir(data):
         #     print(i)
         db.session.add(data)
+        db.session.flush()  
         db.session.commit()
-
+        # print(data.id)
+        return data.id
     except:
         print("Some wrong!!!")
         print(data)
@@ -91,10 +95,24 @@ class User(db.Model, UserMixin):
         return '<ID: {}; User: {} Active: {}>'.format(self.id, self.username, self.active)
 
     def set_password(self, password):
-        self.password = generate_password_hash(password)
+        self.password = utils.encrypt_password(password)
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+    def get_reset_password_token(self, expires_in=600):
+        return jwt.encode(
+            {'reset_password': self.id, 'exp': time() + expires_in},
+            app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+
+    @staticmethod
+    def verify_reset_password_token(token):
+        try:
+            id = jwt.decode(token, app.config['SECRET_KEY'],
+                            algorithms=['HS256'])['reset_password']
+        except:
+            return
+        return User.query.get(id)
 
 
 # таблиця ролей успадковуємо методи від flask-security RoleMixin

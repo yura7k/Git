@@ -8,9 +8,9 @@ from flask_security import login_required, current_user, SQLAlchemySessionUserDa
 
 from flask_googlemaps import Map
 
-from app.email import send_password_reset_email
-from app.models import Post, Tag, User, Service, Order, db_commit
-from .forms import NewsForm, TagForm, RegistrationForm, OrderForm, ResetPasswordRequestForm
+from app.email import send_password_reset_email, send_register_email
+from app.models import Post, Tag, User, Service, Order, db_commit, order_service
+from .forms import NewsForm, TagForm, RegistrationForm, OrderForm, ResetPasswordRequestForm, ResetPasswordForm
 
 
 @app.route('/') # індексна сторінка
@@ -46,18 +46,29 @@ def register():
 @app.route('/create_order', methods=['GET', 'POST'])  
 def create_order():
     if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        phone = request.form['phone']
-        username = request.form['email']
-        password = utils.encrypt_password('123456')
-        active = True
-        user_datastore.create_user(name=name, email=email, phone=phone, username=username, password=password, active=active)
-        db.session.commit()
-        flash('Вітаємо! Ви зареєстровані! Ваш пароль 123456')
+        if not current_user.is_authenticated:
+            if User.query.filter_by(email=request.form['email']).first():
+                flash('Ви реєструвались у нас раніше!!!')
+            else:
+                name = request.form['name']
+                email = request.form['email']
+                phone = request.form['phone']
+                username = request.form['email']
+                password = utils.encrypt_password('123456')
+                active = True
+                user_datastore.create_user(name=name, email=email, phone=phone, username=username, password=password, active=active)
+                db.session.commit()
+                flash('Вітаємо! Ви зареєстровані! Ваш пароль 123456')
 
-        user = User.query.filter_by(email=request.form['email']).first()
-        user_id = user.id
+            user = User.query.filter_by(email=request.form['email']).first()
+            user_id = user.id
+
+            send_register_email(user)
+        else:
+            user_id = current_user.get_id()
+        
+        print(user_id)
+
         name_auto = request.form['name_auto']
         vin = request.form['vin']
         timefrom = request.form['timefrom']
@@ -65,11 +76,17 @@ def create_order():
         comment = request.form['comment']
 
         order = Order(user_id=user_id, name_auto=name_auto, vin=vin, timefrom=timefrom, timeto=timeto, comment=comment)
+        
+        service = Service.query.filter_by(id=request.form['service']).first()
+        
+        order.services.append(service)
         db_commit(data=order)
 
-        return redirect(url_for('index'))
+        return redirect(url_for_security('login'))
     
-    form = OrderForm()
+    service_list = Service.query.order_by(Service.id)
+
+    form = OrderForm(current_user, service_list)
     title = 'Записатись на СТО'
 
     if current_user.is_authenticated:
@@ -152,6 +169,7 @@ def news():
 def price():
     
     price = Service.query.order_by(Service.id)
+    print(price)
 
     # пагінація сторінок новин
     page = request.args.get('page')
@@ -162,7 +180,7 @@ def price():
         page = 1
 
     pages = price.paginate(page=page, per_page=10)
-
+    
     return render_template('price.html', price=price, pages=pages)
 
 @app.route("/contacts")
@@ -186,8 +204,25 @@ def reset_password_request():
         user = User.query.filter_by(email=request.form['email']).first()
         if user:
             send_password_reset_email(user)
-        flash('Check your email for the instructions to reset your password')
-        return redirect(url_for('login'))
+        flash('Перевірте Ваш email з інструкціями як змінити пароль')
+        return redirect(url_for_security('login'))
 
     return render_template('reset_password_request.html',
                            title='Reset Password', form=form)
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for('index'))
+    form = ResetPasswordForm()
+    if request.method == 'POST':
+        user.set_password(request.form['email'])
+        db.session.commit()
+        flash('Ваш пароль змінено.')
+        return redirect(url_for('login'))
+    return render_template('reset_password.html', 
+                            title='Enter New Password', form=form)
+
