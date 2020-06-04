@@ -22,7 +22,7 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-# config Flask Mail
+# add Flask Mail
 mail = Mail(app)
 
 # config Flask-ADMIN
@@ -52,7 +52,7 @@ class UserModelView(ModelView):
     # Не включайте стандартне поле пароля під час створення або редагування User
     form_excluded_columns = ('password',)
     
-admin = Admin(app, 'FlaskApp', url='/', index_view=HomeAdminView())
+admin = Admin(app, 'iService', url='/', index_view=HomeAdminView())
 admin.add_view(BaseModelView(Post, db.session))
 admin.add_view(BaseModelView(Tag, db.session))
 admin.add_view(UserModelView(User, db.session))

@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block content %}
+    {{ date_ordered }}
     <div class="col-md-4 offset-md-4">
         <div style="height: 20px" class=""></div>
         <div style="height: 50px" class="">
@@ -58,15 +59,15 @@
     </div>
     <script>
         $('#datepicker').datepicker({
-            // format: 'mm/dd/yyyy',
+            format: 'dd/mm/yyyy',
             // startDate: '-3d'
             clearBtn: true,
             language: "uk",
             multidate: true,
             daysOfWeekHighlighted: "0,6",
             todayHighlight: true,
-            // datesDisabled: [],
-            datesDisabled: ['06/06/2020', '05/06/2020', '07/06/2020', '08/06/2020'],
+            datesDisabled: {{ date_ordered }},
+            // datesDisabled: ['06/06/2020', '05/06/2020', '07/06/2020', '08/06/2020'],
             toggleActive: true
         });
     </script>
