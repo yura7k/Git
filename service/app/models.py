@@ -15,12 +15,10 @@ def slugify(title):
 # запис даних форми до БД
 def db_commit(data):
     try:
-        # for i in dir(data):
-        #     print(i)
         db.session.add(data)
         db.session.flush()  
         db.session.commit()
-        # print(data.id)
+        # print(data.id) for testing
         return data.id
     except:
         print("Some wrong!!!")
@@ -130,7 +128,7 @@ order_service = db.Table('order_service',
                     db.Column('service_id', db.Integer(), db.ForeignKey('service.id'))
     )
 
-# 
+# таблиця запису клієнтів
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -145,7 +143,7 @@ class Order(db.Model):
     def __repr__(self):
         return '<ID: {}; User: {} VIN: {}>'.format(self.id, self.user_id, self.vin)
 
-# 
+# таблиця типу робіт сервісу
 class Service(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(500))
@@ -159,6 +157,7 @@ class Service(db.Model):
     def __repr__(self):
         return '<ID: {}; Name: {}>'.format(self.id, self.name)
 
+# таблиця категорії робіт
 class Service_category(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     category = db.Column(db.String(150))

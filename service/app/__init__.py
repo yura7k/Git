@@ -9,7 +9,6 @@ from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail, Message
 
 from flask_security import SQLAlchemySessionUserDatastore, Security, current_user
-# from flask_script import Manage
 
 from flask_googlemaps import GoogleMaps
 

@@ -6,6 +6,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.uk.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="css/main.css">
 {% endblock %}
 
 {% block title %}
@@ -13,7 +15,6 @@
 {% endblock %}
 
 {% block content %}
-    {{ date_ordered }}
     <div class="col-md-4 offset-md-4">
         <div style="height: 20px" class=""></div>
         <div style="height: 50px" class="">
@@ -57,6 +58,7 @@
         </form>
         <div style="height: 150px" class=""></div>
     </div>
+    {% if date_ordered %}
     <script>
         $('#datepicker').datepicker({
             format: 'dd/mm/yyyy',
@@ -64,11 +66,14 @@
             clearBtn: true,
             language: "uk",
             multidate: true,
-            daysOfWeekHighlighted: "0,6",
+            // daysOfWeekHighlighted: "0,6",
             todayHighlight: true,
-            datesDisabled: {{ date_ordered }},
+            datesDisabled: {{ date_ordered | tojson }},
+            // datesDisabled: {{ date_ordered }}
+            // datesDisabled: [{{ ', '.join(date_ordered) }}],
             // datesDisabled: ['06/06/2020', '05/06/2020', '07/06/2020', '08/06/2020'],
             toggleActive: true
         });
     </script>
+    {% endif%}
 {% endblock %}

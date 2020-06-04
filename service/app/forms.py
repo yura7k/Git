@@ -28,16 +28,10 @@ class RegistrationForm(RegisterForm):
     submit = SubmitField('Зареєструвати')
 
 class OrderForm(Form):
-    # myChoices = [1,2,3,4,5]
-    # myField = SelectField(u'Field name', choices = myChoices, validators = [DataRequired()])
-
     def __init__(self, current_user, service_list):
         Form.__init__(self)
         self.current_user = current_user
         self.service_list = []
-
-        # for item in service_list:
-        #     self.service_list.append(item.name)
 
         if not current_user.is_authenticated:
             setattr(OrderForm, 'name', StringField('ПІБ:', validators=[DataRequired()]))

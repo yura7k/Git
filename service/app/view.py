@@ -72,7 +72,7 @@ def create_order():
         name_auto = request.form['name_auto']
         vin = request.form['vin']
         timefrom = datetime.strptime(request.form['timefrom'], '%d/%m/%Y')
-        timeto = datetime.strptime(request.form['timefrom'], '%d/%m/%Y') + timedelta(days=1)
+        timeto = datetime.strptime(request.form['timefrom'], '%d/%m/%Y') ## + timedelta(days=1)
         comment = request.form['comment']
 
         order = Order(user_id=user_id, name_auto=name_auto, vin=vin, timefrom=timefrom, timeto=timeto, comment=comment)
@@ -86,12 +86,11 @@ def create_order():
     
     date_ordered = []
     orders = Order.query.all()
+
     for item in orders:
         date_ordered.append(item.timefrom.strftime('%d/%m/%Y'))
         date_ordered.append(item.timeto.strftime('%d/%m/%Y'))
-        # print(item.timefrom.strftime("%d"))
-    
-    print(date_ordered)
+
 
     service_list = Service.query.order_by(Service.id)
 
